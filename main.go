@@ -11,7 +11,7 @@ func main() {
 	fileServer := http.FileServer(http.Dir("./static")) //we want a static directory --> look at index.html file
 	http.Handle("/", fileServer)
 	http.HandleFunc("/form", formHandler)
-	http.HandleFunc("/hello", helloHandler)
+	http.HandleFunc("/hello", HelloHandler)
 
 	fmt.Printf("Starting server at port 8080\n")
 	if err := http.ListenAndServe(":8080", nil); err != nil {
@@ -27,7 +27,7 @@ func HelloHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method != "GET" {
-		http.Error("Method is not supported", http.StatusNotFound)
+		http.Error(w, "Method is not supported", http.StatusNotFound)
 	}
 
 	fmt.Fprintf(w, "Hello!")
